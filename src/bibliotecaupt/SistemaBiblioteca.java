@@ -45,6 +45,32 @@ public class SistemaBiblioteca {
         utilizadorAutenticado = null;
     }
 
+    public Aluno registarAluno(String nome, String email, String password, String numeroAluno, boolean inscricaoAtiva) {
+        sPermissao(utilizadorAutenticado instanceof Bibliotecario, "Apenas bibliotecários ou gestores podem registar alunos.");
+        sValidar(nome, "nome");
+        sValidar(email, "email");
+        sValidar(password, "password");
+        sValidar(numeroAluno, "número de aluno");
+        sValidarEmail(email);
+        sValidarNAluno(numeroAluno);
+
+        Aluno aluno = new Aluno(nome.trim(), email.trim(), password, numeroAluno.trim(), inscricaoAtiva);
+        utilizadores.add(aluno);
+        return aluno;
+    }
+
+    public Bibliotecario registarBibliotecario(String nome, String email, String password) {
+        sPermissao(utilizadorAutenticado instanceof Gestor, "Apenas gestores podem registar bibliotecários.");
+        sValidar(nome, "nome");
+        sValidar(email, "email");
+        sValidar(password, "password");
+        sValidarEmail(email);
+
+        Bibliotecario b = new Bibliotecario(nome.trim(), email.trim(), password);
+        utilizadores.add(b);
+        return b;
+    }
+
     public void atualizarRequisicoesEmAtraso() {
         LocalDate hoje = LocalDate.now();
         for (Reserva r : reservas) {
@@ -77,6 +103,14 @@ public class SistemaBiblioteca {
         for (Utilizador u : utilizadores) {
             if (u.getEmail().equalsIgnoreCase(email.trim())) {
                 throw new IllegalArgumentException("Já existe um utilizador com o email '" + email.trim() + "'.");
+            }
+        }
+    }
+
+    private void sValidarNAluno(String numeroAluno) {
+        for (Utilizador u : utilizadores) {
+            if (u instanceof Aluno && ((Aluno) u).getNumeroAluno().equalsIgnoreCase(numeroAluno.trim())) {
+                throw new IllegalArgumentException("Já existe um aluno com o número '" + numeroAluno.trim() + "'.");
             }
         }
     }
