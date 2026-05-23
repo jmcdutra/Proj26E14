@@ -102,6 +102,37 @@ public class SistemaBiblioteca {
         return resultados;
     }
 
+    public Reserva requisitarLivro(Aluno aluno, Livro livro) {
+        sPermissao(utilizadorAutenticado == aluno, "Só o próprio aluno pode requisitar livros.");
+        atualizarRequisicoesEmAtraso();
+
+        if (!aluno.isInscricaoAtiva()) {
+            throw new IllegalArgumentException("Apenas alunos com inscrição ativa podem requisitar livros.");
+        }
+
+        int ativas = 0;
+        for (Reserva r : reservas) {
+            if (r.getAluno() == aluno
+                    && (r.getEstado() == EstadoReserva.ATIVA || r.getEstado() == EstadoReserva.EM_ATRASO)) {
+                ativas++;
+                if (r.getEstado() == EstadoReserva.EM_ATRASO) {
+                    throw new IllegalArgumentException("Aluno tem requisições em atraso e não pode requisitar novos livros.");
+                }
+            }
+        }
+        if (ativas >= MAX_REQUISICOES_ATIVAS) {
+            throw new IllegalArgumentException("Aluno já atingiu o máximo de " + MAX_REQUISICOES_ATIVAS + " requisições ativas.");
+        }
+        if (!livro.estaDisponivel()) {
+            throw new IllegalArgumentException("Não existem exemplares disponíveis deste livro.");
+        }
+
+        livro.diminuirExemplarDisponivel();
+        Reserva nova = new Reserva(proximoIdReserva++, aluno, livro, LocalDate.now());
+        reservas.add(nova);
+        return nova;
+    }
+
     public void atualizarRequisicoesEmAtraso() {
         LocalDate hoje = LocalDate.now();
         for (Reserva r : reservas) {
