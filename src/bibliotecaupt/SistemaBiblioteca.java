@@ -2,6 +2,7 @@ package bibliotecaupt;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class SistemaBiblioteca {
@@ -131,6 +132,21 @@ public class SistemaBiblioteca {
         Reserva nova = new Reserva(proximoIdReserva++, aluno, livro, LocalDate.now());
         reservas.add(nova);
         return nova;
+    }
+
+    public List<Reserva> listarRequisicoesAluno(Aluno aluno) {
+        sPermissao(utilizadorAutenticado == aluno, "Só o próprio aluno pode consultar as suas requisições.");
+        atualizarRequisicoesEmAtraso();
+
+        List<Reserva> ativas = new ArrayList<>();
+        for (Reserva r : reservas) {
+            if (r.getAluno() == aluno
+                    && (r.getEstado() == EstadoReserva.ATIVA || r.getEstado() == EstadoReserva.EM_ATRASO)) {
+                ativas.add(r);
+            }
+        }
+        ativas.sort(Comparator.comparing(Reserva::getDataLimiteDevolucao));
+        return ativas;
     }
 
     public void atualizarRequisicoesEmAtraso() {
