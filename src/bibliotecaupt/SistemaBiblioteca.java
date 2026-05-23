@@ -71,6 +71,37 @@ public class SistemaBiblioteca {
         return b;
     }
 
+    public Livro registarLivro(String titulo, String autor, String isbn, int totalExemplares) {
+        sPermissao(utilizadorAutenticado instanceof Bibliotecario, "Apenas bibliotecários ou gestores podem registar livros.");
+        sValidar(titulo, "título");
+        sValidar(autor, "autor");
+        sValidar(isbn, "ISBN");
+
+        if (totalExemplares <= 0) {
+            throw new IllegalArgumentException("O número de exemplares tem de ser superior a zero.");
+        }
+
+        sISBN(isbn);
+
+        Livro livro = new Livro(titulo.trim(), autor.trim(), isbn.trim(), totalExemplares);
+        livros.add(livro);
+        return livro;
+    }
+
+    public List<Livro> pesquisarLivros(String criterio) {
+        exigirAutenticado();
+        List<Livro> resultados = new ArrayList<>();
+        if (criterio == null || criterio.trim().isEmpty()) {
+            return resultados;
+        }
+        for (Livro l : livros) {
+            if (l.correspondePesquisa(criterio.trim())) {
+                resultados.add(l);
+            }
+        }
+        return resultados;
+    }
+
     public void atualizarRequisicoesEmAtraso() {
         LocalDate hoje = LocalDate.now();
         for (Reserva r : reservas) {
@@ -115,10 +146,26 @@ public class SistemaBiblioteca {
         }
     }
 
+    private void sISBN(String isbn) {
+        for (Livro l : livros) {
+            if (l.getIsbn().equalsIgnoreCase(isbn.trim())) {
+                throw new IllegalArgumentException("Já existe um livro com o ISBN '" + isbn.trim() + "'.");
+            }
+        }
+    }
+
     private void database() {
         utilizadores.add(new Gestor("Administrador", "admin@upt.pt", "123456"));
         utilizadores.add(new Bibliotecario("Paula Morais", "pmorais@upt.pt", "123456"));
         utilizadores.add(new Aluno("João Dutra", "jdutra@upt.pt", "123456", "52876", true));
         utilizadores.add(new Aluno("Júlia Fernandes", "jfernandes@upt.pt", "123456", "53340", true));
+
+        livros.add(new Livro("Harry Potter e a Pedra Filosofal", "J. K. Rowling", "9789720047335", 3));
+        livros.add(new Livro("Os Lusíadas", "Luís de Camões", "9789722334877", 2));
+        try {
+            Livro indisponivel = livros.get(livros.size() - 1);
+            indisponivel.diminuirExemplarDisponivel();
+        } catch (IllegalStateException ignored) {
+        }
     }
 }
