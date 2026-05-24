@@ -1,0 +1,165 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Arquitetura Organizada" id="arquitetura-biblioteca-terminal-java">
+    <mxGraphModel dx="2200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- TÍTULO -->
+        <mxCell id="titulo" value="&lt;b&gt;Arquitetura da Solução — Sistema de Gestão de Biblioteca Universitária&lt;/b&gt;&lt;br/&gt;Aplicação de terminal em Java — Diagrama de Classes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=13;align=center;" vertex="1" parent="1">
+          <mxGeometry x="600" y="20" width="900" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ROW 1: MAIN ===== -->
+        <mxCell id="Main" value="&lt;b&gt;Main&lt;/b&gt;&lt;hr/&gt;+ main(args: String[]): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="950" y="100" width="300" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ROW 2: MENU + SISTEMA + UTILIZADOR ===== -->
+        <mxCell id="MenuTerminal" value="&lt;b&gt;MenuTerminal&lt;/b&gt;&lt;hr/&gt;- sistema: SistemaBiblioteca&lt;br/&gt;- scanner: Scanner&lt;hr/&gt;+ iniciar(): void&lt;br/&gt;+ mostrarMenuLogin(): void&lt;br/&gt;+ mostrarMenuAluno(aluno: Aluno): void&lt;br/&gt;+ mostrarMenuBibliotecario(): void&lt;br/&gt;+ mostrarMenuGestor(): void&lt;br/&gt;- lerOpcao(): int" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="260" width="340" height="220" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="SistemaBiblioteca" value="&lt;b&gt;SistemaBiblioteca&lt;/b&gt;&lt;hr/&gt;- utilizadores: List&amp;lt;Utilizador&amp;gt;&lt;br/&gt;- livros: List&amp;lt;Livro&amp;gt;&lt;br/&gt;- reservas: List&amp;lt;Reserva&amp;gt;&lt;br/&gt;- pedidosEspera: List&amp;lt;PedidoListaEspera&amp;gt;&lt;br/&gt;- notificacoes: List&amp;lt;Notificacao&amp;gt;&lt;br/&gt;- utilizadorAutenticado: Utilizador&lt;hr/&gt;+ autenticar(email: String, password: String): Utilizador&lt;br/&gt;+ terminarSessao(): void&lt;br/&gt;+ registarAluno(...): Aluno&lt;br/&gt;+ registarBibliotecario(...): Bibliotecario&lt;br/&gt;+ registarLivro(...): Livro&lt;br/&gt;+ pesquisarLivros(criterio: String): List&amp;lt;Livro&amp;gt;&lt;br/&gt;+ requisitarLivro(aluno: Aluno, livro: Livro): Reserva&lt;br/&gt;+ listarRequisicoesAluno(aluno: Aluno): List&amp;lt;Reserva&amp;gt;&lt;br/&gt;+ listarTodasRequisicoes(estado: EstadoReserva): List&amp;lt;Reserva&amp;gt;&lt;br/&gt;+ registarDevolucao(reserva: Reserva): void&lt;br/&gt;+ renovarRequisicao(reserva: Reserva): void&lt;br/&gt;+ criarPedidoEspera(aluno: Aluno, livro: Livro): PedidoListaEspera&lt;br/&gt;+ cancelarPedidoEspera(pedido: PedidoListaEspera): void&lt;br/&gt;+ listarNotificacoes(aluno: Aluno): List&amp;lt;Notificacao&amp;gt;&lt;br/&gt;+ atualizarRequisicoesEmAtraso(): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="490" y="260" width="540" height="420" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="Utilizador" value="&lt;i&gt;«abstract»&lt;/i&gt;&lt;br/&gt;&lt;b&gt;Utilizador&lt;/b&gt;&lt;hr/&gt;- nome: String&lt;br/&gt;- email: String&lt;br/&gt;- password: String&lt;hr/&gt;+ getNome(): String&lt;br/&gt;+ getEmail(): String&lt;br/&gt;+ verificarPassword(password: String): boolean" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="260" width="370" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ROW 3: SUBCLASSES DE UTILIZADOR ===== -->
+        <mxCell id="Aluno" value="&lt;b&gt;Aluno&lt;/b&gt;&lt;hr/&gt;- numeroAluno: String&lt;br/&gt;- inscricaoAtiva: boolean&lt;hr/&gt;+ getNumeroAluno(): String&lt;br/&gt;+ isInscricaoAtiva(): boolean" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="950" y="540" width="310" height="150" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="Bibliotecario" value="&lt;b&gt;Bibliotecario&lt;/b&gt;&lt;hr/&gt;+ registarLivro(): void&lt;br/&gt;+ registarAluno(): void&lt;br/&gt;+ registarDevolucao(): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="540" width="280" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="Gestor" value="&lt;b&gt;Gestor&lt;/b&gt;&lt;hr/&gt;+ registarBibliotecario(): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1640" y="540" width="250" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ROW 4: DOMÍNIO ===== -->
+        <mxCell id="Livro" value="&lt;b&gt;Livro&lt;/b&gt;&lt;hr/&gt;- titulo: String&lt;br/&gt;- autor: String&lt;br/&gt;- isbn: String&lt;br/&gt;- totalExemplares: int&lt;br/&gt;- exemplaresDisponiveis: int&lt;hr/&gt;+ estaDisponivel(): boolean&lt;br/&gt;+ diminuirExemplarDisponivel(): void&lt;br/&gt;+ aumentarExemplarDisponivel(): void&lt;br/&gt;+ correspondePesquisa(criterio: String): boolean" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="790" width="380" height="230" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="Reserva" value="&lt;b&gt;Reserva&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- aluno: Aluno&lt;br/&gt;- livro: Livro&lt;br/&gt;- dataRequisicao: LocalDate&lt;br/&gt;- dataLimiteDevolucao: LocalDate&lt;br/&gt;- dataDevolucaoEfetiva: LocalDate&lt;br/&gt;- estado: EstadoReserva&lt;br/&gt;- renovada: boolean&lt;hr/&gt;+ estaEmAtraso(): boolean&lt;br/&gt;+ marcarEmAtraso(): void&lt;br/&gt;+ renovar(): void&lt;br/&gt;+ registarDevolucao(): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="530" y="790" width="400" height="300" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="PedidoListaEspera" value="&lt;b&gt;PedidoListaEspera&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- aluno: Aluno&lt;br/&gt;- livro: Livro&lt;br/&gt;- dataPedido: LocalDate&lt;br/&gt;- dataNotificacao: LocalDate&lt;br/&gt;- estado: EstadoPedidoListaEspera&lt;hr/&gt;+ marcarPendente(): void&lt;br/&gt;+ cancelar(): void&lt;br/&gt;+ concluir(): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="790" width="380" height="250" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="Notificacao" value="&lt;b&gt;Notificacao&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- aluno: Aluno&lt;br/&gt;- assunto: String&lt;br/&gt;- mensagem: String&lt;br/&gt;- dataCriacao: LocalDate&lt;br/&gt;- lida: boolean&lt;hr/&gt;+ marcarComoLida(): void" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1450" y="790" width="340" height="210" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ROW 5: ENUMS ===== -->
+        <mxCell id="EstadoReserva" value="&lt;i&gt;«enum»&lt;/i&gt;&lt;br/&gt;&lt;b&gt;EstadoReserva&lt;/b&gt;&lt;hr/&gt;ATIVA&lt;br/&gt;DEVOLVIDA&lt;br/&gt;EM_ATRASO" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="580" y="1160" width="230" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="EstadoPedidoListaEspera" value="&lt;i&gt;«enum»&lt;/i&gt;&lt;br/&gt;&lt;b&gt;EstadoPedidoListaEspera&lt;/b&gt;&lt;hr/&gt;ATIVO&lt;br/&gt;PENDENTE&lt;br/&gt;CANCELADO&lt;br/&gt;CONCLUIDO" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="1160" width="280" height="150" as="geometry"/>
+        </mxCell>
+
+        <!-- NOTA -->
+        <mxCell id="nota" value="&lt;b&gt;Notas:&lt;/b&gt;&lt;br/&gt;• MenuTerminal não contém regras de negócio.&lt;br/&gt;• SistemaBiblioteca centraliza validações e operações.&lt;br/&gt;• Livro usa exemplaresDisponiveis em vez de estado fixo." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1860" y="790" width="230" height="150" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== RELACIONAMENTOS ===== -->
+
+        <!-- Main cria MenuTerminal -->
+        <mxCell id="e_main_menu" value="cria" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;dashed=1;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="Main" target="MenuTerminal" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- MenuTerminal usa SistemaBiblioteca -->
+        <mxCell id="e_menu_sistema" value="usa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;fontSize=11;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" source="MenuTerminal" target="SistemaBiblioteca" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Herança: Aluno -> Utilizador -->
+        <mxCell id="e_aluno_util" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;" edge="1" source="Aluno" target="Utilizador" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Herança: Bibliotecario -> Utilizador -->
+        <mxCell id="e_bibl_util" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="Bibliotecario" target="Utilizador" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Herança: Gestor -> Utilizador -->
+        <mxCell id="e_gestor_util" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;" edge="1" source="Gestor" target="Utilizador" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- SistemaBiblioteca gere Utilizador -->
+        <mxCell id="e_sis_util" value="gere 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamond;startFill=1;endArrow=none;fontSize=11;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="SistemaBiblioteca" target="Utilizador" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- SistemaBiblioteca gere Livro -->
+        <mxCell id="e_sis_livro" value="gere 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamond;startFill=1;endArrow=none;fontSize=11;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="SistemaBiblioteca" target="Livro" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- SistemaBiblioteca gere Reserva -->
+        <mxCell id="e_sis_res" value="gere 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamond;startFill=1;endArrow=none;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="SistemaBiblioteca" target="Reserva" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- SistemaBiblioteca gere PedidoListaEspera -->
+        <mxCell id="e_sis_ped" value="gere 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamond;startFill=1;endArrow=none;fontSize=11;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="SistemaBiblioteca" target="PedidoListaEspera" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- SistemaBiblioteca gere Notificacao -->
+        <mxCell id="e_sis_not" value="gere 0..*" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=diamond;startFill=1;endArrow=none;fontSize=11;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="SistemaBiblioteca" target="Notificacao" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Reserva -> Aluno -->
+        <mxCell id="e_res_aluno" value="aluno 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;fontSize=11;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" source="Reserva" target="Aluno" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Reserva -> Livro -->
+        <mxCell id="e_res_livro" value="livro 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;fontSize=11;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="Reserva" target="Livro" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- PedidoListaEspera -> Aluno -->
+        <mxCell id="e_ped_aluno" value="aluno 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;fontSize=11;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" source="PedidoListaEspera" target="Aluno" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- PedidoListaEspera -> Livro -->
+        <mxCell id="e_ped_livro" value="livro 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;fontSize=11;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" edge="1" source="PedidoListaEspera" target="Livro" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Notificacao -> Aluno -->
+        <mxCell id="e_not_aluno" value="aluno 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;fontSize=11;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;" edge="1" source="Notificacao" target="Aluno" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Reserva usa EstadoReserva -->
+        <mxCell id="e_res_estado" value="usa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;dashed=1;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="Reserva" target="EstadoReserva" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- PedidoListaEspera usa EstadoPedidoListaEspera -->
+        <mxCell id="e_ped_estado" value="usa" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=open;dashed=1;fontSize=11;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="PedidoListaEspera" target="EstadoPedidoListaEspera" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
