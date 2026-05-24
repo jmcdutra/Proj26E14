@@ -37,6 +37,35 @@ public class MenuTerminal {
         scanner.close();
     }
 
+    private boolean mostrarMenuLogin() {
+        System.out.println();
+        System.out.println("------------------- LOGIN -------------------");
+        System.out.println("1. Iniciar sessão");
+        System.out.println("0. Sair");
+        int opcao = lerOpcao("Opção: ");
+        switch (opcao) {
+            case 1:
+                logIn();
+                return false;
+            case 0:
+                return true;
+            default:
+                System.out.println("Opção inválida.");
+                return false;
+        }
+    }
+
+    private void logIn() {
+        try {
+            String email = lerTexto("Email: ");
+            String password = lerTexto("Password: ");
+            Utilizador u = sistema.autenticar(email, password);
+            System.out.println("Seja bem-vindo(a), " + u.getNome() + ".");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
     private void mostrarMenuAluno(Aluno aluno) {
         System.out.println();
         System.out.println("------------------- PAINEL DO ALUNO -------------------");
@@ -196,35 +225,6 @@ public class MenuTerminal {
             for (Reserva r : ativas) {
                 System.out.println("  - " + r);
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro: " + e.getMessage());
-        }
-    }
-
-    private boolean mostrarMenuLogin() {
-        System.out.println();
-        System.out.println("------------------- LOGIN -------------------");
-        System.out.println("1. Iniciar sessão");
-        System.out.println("0. Sair");
-        int opcao = lerOpcao("Opção: ");
-        switch (opcao) {
-            case 1:
-                logIn();
-                return false;
-            case 0:
-                return true;
-            default:
-                System.out.println("Opção inválida.");
-                return false;
-        }
-    }
-
-    private void logIn() {
-        try {
-            String email = lerTexto("Email: ");
-            String password = lerTexto("Password: ");
-            Utilizador u = sistema.autenticar(email, password);
-            System.out.println("Seja bem-vindo(a), " + u.getNome() + ".");
         } catch (IllegalArgumentException e) {
             System.out.println("Erro: " + e.getMessage());
         }
