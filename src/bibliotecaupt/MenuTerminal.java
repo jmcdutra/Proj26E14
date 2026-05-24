@@ -42,10 +42,14 @@ public class MenuTerminal {
         System.out.println("------------------- PAINEL DO ALUNO -------------------");
         System.out.println("Utilizador: " + aluno.getNome() + " (nº " + aluno.getNumeroAluno() + ")");
         System.out.println("1. Pesquisar livros");
+        System.out.println("2. Requisitar livro");
+        System.out.println("3. Ver requisições ativas");
         System.out.println("0. Terminar sessão");
         int opcao = lerOpcao("Opção: ");
         switch (opcao) {
             case 1: opcaoPesquisarLivros(); break;
+            case 2: opcaoRequisitarLivro(aluno); break;
+            case 3: opcaoListarRequisicoesAtivas(aluno); break;
             case 0: sistema.terminarSessao(); System.out.println("Sessão terminada."); break;
             default: System.out.println("Opção inválida.");
         }
@@ -139,6 +143,58 @@ public class MenuTerminal {
             System.out.println("Resultados encontrados (" + resultados.size() + "):");
             for (int i = 0; i < resultados.size(); i++) {
                 System.out.println("  [" + (i + 1) + "] " + resultados.get(i));
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void opcaoRequisitarLivro(Aluno aluno) {
+        try {
+            String criterio = lerTexto("Pesquisar livro a requisitar (título, autor ou ISBN): ");
+            List<Livro> resultados = sistema.pesquisarLivros(criterio);
+            if (resultados.isEmpty()) {
+                System.out.println("Nenhum livro encontrado.");
+                return;
+            }
+            System.out.println("Resultados encontrados:");
+            for (int i = 0; i < resultados.size(); i++) {
+                System.out.println("  [" + (i + 1) + "] " + resultados.get(i));
+            }
+            int escolha;
+            if (resultados.size() == 1) {
+                escolha = 1;
+            } else {
+                escolha = lerOpcao("Indique o número do livro a requisitar (0 para cancelar): ");
+                if (escolha == 0) {
+                    System.out.println("Operação cancelada.");
+                    return;
+                }
+            }
+            if (escolha < 1 || escolha > resultados.size()) {
+                System.out.println("Erro: opção inválida.");
+                return;
+            }
+            Livro livro = resultados.get(escolha - 1);
+            Reserva reserva = sistema.requisitarLivro(aluno, livro);
+            System.out.println("Requisição registada com sucesso.");
+            System.out.println("  Livro: " + reserva.getLivro().getTitulo());
+            System.out.println("  Data limite de devolução: " + reserva.getDataLimiteDevolucao());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void opcaoListarRequisicoesAtivas(Aluno aluno) {
+        try {
+            List<Reserva> ativas = sistema.listarRequisicoesAluno(aluno);
+            if (ativas.isEmpty()) {
+                System.out.println("Não existem requisições ativas.");
+                return;
+            }
+            System.out.println("Requisições ativas (" + ativas.size() + "):");
+            for (Reserva r : ativas) {
+                System.out.println("  - " + r);
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Erro: " + e.getMessage());
